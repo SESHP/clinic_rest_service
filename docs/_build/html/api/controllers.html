@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контроллеры (API Endpoints) &mdash; документация REST-сервис Поликлиника 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e35015f7"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=cd1d70c9"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            REST-сервис Поликлиника
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Контроллеры (API Endpoints)</a><ul>
+<li><a class="reference internal" href="#module-app.controllers.patient_controller">Patient Controller</a><ul>
+<li><a class="reference internal" href="#app.controllers.patient_controller.create_patient"><code class="docutils literal notranslate"><span class="pre">create_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.patient_controller.get_patient"><code class="docutils literal notranslate"><span class="pre">get_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.patient_controller.get_all_patients"><code class="docutils literal notranslate"><span class="pre">get_all_patients()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.patient_controller.update_patient"><code class="docutils literal notranslate"><span class="pre">update_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.patient_controller.delete_patient"><code class="docutils literal notranslate"><span class="pre">delete_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.patient_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-app.controllers.doctor_controller">Doctor Controller</a><ul>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.create_doctor"><code class="docutils literal notranslate"><span class="pre">create_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.get_doctor"><code class="docutils literal notranslate"><span class="pre">get_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.get_doctors"><code class="docutils literal notranslate"><span class="pre">get_doctors()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.update_doctor"><code class="docutils literal notranslate"><span class="pre">update_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.delete_doctor"><code class="docutils literal notranslate"><span class="pre">delete_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.doctor_controller.get_doctor_schedule"><code class="docutils literal notranslate"><span class="pre">get_doctor_schedule()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-app.controllers.appointment_controller">Appointment Controller</a><ul>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.create_appointment"><code class="docutils literal notranslate"><span class="pre">create_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.get_appointment"><code class="docutils literal notranslate"><span class="pre">get_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.get_doctor_appointments"><code class="docutils literal notranslate"><span class="pre">get_doctor_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.get_all_appointments"><code class="docutils literal notranslate"><span class="pre">get_all_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.update_appointment"><code class="docutils literal notranslate"><span class="pre">update_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.cancel_appointment"><code class="docutils literal notranslate"><span class="pre">cancel_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.complete_appointment"><code class="docutils literal notranslate"><span class="pre">complete_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.controllers.appointment_controller.delete_appointment"><code class="docutils literal notranslate"><span class="pre">delete_appointment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">REST-сервис Поликлиника</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Контроллеры (API Endpoints)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/controllers.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-endpoints">
+<h1>Контроллеры (API Endpoints)<a class="headerlink" href="#api-endpoints" title="Ссылка на этот заголовок"></a></h1>
+<section id="module-app.controllers.patient_controller">
+<span id="patient-controller"></span><h2>Patient Controller<a class="headerlink" href="#module-app.controllers.patient_controller" title="Ссылка на этот заголовок"></a></h2>
+<p>Контроллер для работы с пациентами</p>
+<p>Реализует REST API endpoints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.create_patient">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">create_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#create_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.create_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Создать нового пациента</p>
+<p>Валидация:
+- ФИО должно содержать минимум 3 слова
+- Дата рождения не может быть в будущем
+- Номер телефона в формате +7XXXXXXXXXX
+- Номер полиса ОМС уникален и содержит 16 цифр</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.PatientCreate" title="app.schemas.schemas.PatientCreate"><em>PatientCreate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.get_patient">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">get_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#get_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.get_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить данные пациента по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.get_all_patients">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">get_all_patients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#get_all_patients"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.get_all_patients" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить список всех пациентов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.update_patient">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">update_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#update_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.update_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновить данные пациента</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>patient</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.PatientUpdate" title="app.schemas.schemas.PatientUpdate"><em>PatientUpdate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.delete_patient">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">delete_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#delete_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.delete_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Удалить пациента (каскадно удаляются все его приемы)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.patient_controller.get_patient_appointments">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.patient_controller.</span></span><span class="sig-name descname"><span class="pre">get_patient_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/patient_controller.html#get_patient_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.patient_controller.get_patient_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить историю приёмов пациента</p>
+<p>Возвращает список всех записей на приём для данного пациента,
+отсортированных по дате (от новых к старым)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – ID пациента</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список всех приёмов пациента с информацией о враче, дате, времени, диагнозе и статусе</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.controllers.doctor_controller">
+<span id="doctor-controller"></span><h2>Doctor Controller<a class="headerlink" href="#module-app.controllers.doctor_controller" title="Ссылка на этот заголовок"></a></h2>
+<p>Контроллер для работы с врачами</p>
+<p>Реализует REST API endpoints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.create_doctor">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">create_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#create_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.create_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Создать нового врача</p>
+<p>Валидация:
+- ФИО должно содержать минимум 3 слова
+- Специализация из предопределенного списка
+- Стаж работы от 0 до 60 лет
+- Номер телефона в формате +7XXXXXXXXXX</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.DoctorCreate" title="app.schemas.schemas.DoctorCreate"><em>DoctorCreate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.get_doctor">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">get_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#get_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.get_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить данные врача по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.get_doctors">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">get_doctors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specialization=Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#get_doctors"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.get_doctors" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить список всех врачей</p>
+<p>Опционально можно фильтровать по специализации</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specialization</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(в Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.update_doctor">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">update_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doctor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#update_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.update_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновить данные врача</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>doctor</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.DoctorUpdate" title="app.schemas.schemas.DoctorUpdate"><em>DoctorUpdate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.delete_doctor">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">delete_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#delete_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.delete_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Удалить врача</p>
+<p>Ограничение: нельзя удалить врача, если у него есть запланированные приемы</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.doctor_controller.get_doctor_schedule">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.doctor_controller.</span></span><span class="sig-name descname"><span class="pre">get_doctor_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/doctor_controller.html#get_doctor_schedule"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.doctor_controller.get_doctor_schedule" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить расписание врача на определенную дату</p>
+<p>Возвращает список всех записей на прием к данному врачу в указанную дату</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – ID врача</p></li>
+<li><p><strong>date</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a></span>) – Дата в формате YYYY-MM-DD (например, 2025-12-15)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список записей на прием с информацией о пациентах, времени и статусе</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.controllers.appointment_controller">
+<span id="appointment-controller"></span><h2>Appointment Controller<a class="headerlink" href="#module-app.controllers.appointment_controller" title="Ссылка на этот заголовок"></a></h2>
+<p>Контроллер для работы с приемами</p>
+<p>Реализует REST API endpoints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.create_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">create_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#create_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.create_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Записать пациента на прием к врачу</p>
+<p>Бизнес-правила:
+- Проверка существования пациента и врача
+- У врача не может быть двух приемов в одно время
+- Пациент не может быть записан к двум врачам в одно время
+- Врач не может иметь более 20 приемов в день
+- Между приемами должен быть интервал минимум 20 минут
+- Пациент может быть записан к одному врачу только один раз в день</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.AppointmentCreate" title="app.schemas.schemas.AppointmentCreate"><em>AppointmentCreate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.get_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">get_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#get_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.get_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить подробную информацию о приеме</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.get_patient_appointments">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">get_patient_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#get_patient_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.get_patient_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить все приемы пациента (история приемов)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.get_doctor_appointments">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">get_doctor_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appointment_date=Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#get_doctor_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.get_doctor_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить все приемы врача</p>
+<p>Опционально можно указать конкретную дату для получения расписания на день</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>appointment_date</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(в Python v3.14)"><em>date</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.get_all_appointments">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">get_all_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#get_all_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.get_all_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получить список всех приемов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.update_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">update_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appointment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#update_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.update_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновить прием</p>
+<p>Ограничения:
+- Нельзя установить диагноз для отмененного приема
+- Нельзя отменить завершенный прием
+- Прием можно завершить только в день проведения или позже</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>appointment</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.AppointmentUpdate" title="app.schemas.schemas.AppointmentUpdate"><em>AppointmentUpdate</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.cancel_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">cancel_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#cancel_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.cancel_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Отменить прием</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.complete_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">complete_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagnosis=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#complete_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.complete_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Завершить прием (установить диагноз и статус „completed“)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>diagnosis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(в Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.controllers.appointment_controller.delete_appointment">
+<span class="sig-prename descclassname"><span class="pre">app.controllers.appointment_controller.</span></span><span class="sig-name descname"><span class="pre">delete_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db=Depends(dependency=&lt;function</span> <span class="pre">get_db&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/controllers/appointment_controller.html#delete_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.controllers.appointment_controller.delete_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Удалить запись о приеме</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Buze. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

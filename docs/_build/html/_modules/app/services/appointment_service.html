@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.services.appointment_service &mdash; документация REST-сервис Поликлиника 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e35015f7"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=cd1d70c9"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            REST-сервис Поликлиника
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">REST-сервис Поликлиника</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Код модуля</a></li>
+      <li class="breadcrumb-item active">app.services.appointment_service</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Исходный код app.services.appointment_service</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Сервис для работы с приемами (записями пациентов к врачам)</span>
+
+<span class="sd">Реализует сложную бизнес-логику и все функциональные требования</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.models.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppointmentDB</span><span class="p">,</span> <span class="n">PatientDB</span><span class="p">,</span> <span class="n">DoctorDB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppointmentCreate</span><span class="p">,</span> <span class="n">AppointmentUpdate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NotFoundException</span><span class="p">,</span>
+    <span class="n">ValidationException</span><span class="p">,</span>
+    <span class="n">TimeConflictException</span><span class="p">,</span>
+    <span class="n">MaxAppointmentsExceededException</span><span class="p">,</span>
+    <span class="n">BusinessLogicException</span><span class="p">,</span>
+    <span class="n">DatabaseException</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AppointmentService">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppointmentService</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Сервис для управления приемами</span>
+<span class="sd">    </span>
+<span class="sd">    Операции:</span>
+<span class="sd">    - Записать пациента на прием к врачу</span>
+<span class="sd">    - Получить информацию о приеме</span>
+<span class="sd">    - Получить все приемы пациента</span>
+<span class="sd">    - Получить все приемы врача</span>
+<span class="sd">    - Отменить прием</span>
+<span class="sd">    - Завершить прием (установить диагноз)</span>
+<span class="sd">    - Удалить запись о приеме</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Константы бизнес-логики</span>
+    <span class="n">MAX_APPOINTMENTS_PER_DAY</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Максимум приемов в день у одного врача</span>
+    <span class="n">MIN_APPOINTMENT_INTERVAL_MINUTES</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Минимальный интервал между приемами</span>
+    
+<div class="viewcode-block" id="AppointmentService.__init__">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.create_appointment">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.create_appointment">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_appointment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_data</span><span class="p">:</span> <span class="n">AppointmentCreate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppointmentDB</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Создание новой записи на прием</span>
+<span class="sd">        </span>
+<span class="sd">        Валидация и бизнес-правила:</span>
+<span class="sd">        1. Проверка существования пациента</span>
+<span class="sd">        2. Проверка существования врача</span>
+<span class="sd">        3. У врача не может быть двух приемов в одно время</span>
+<span class="sd">        4. Пациент не может быть записан к двум врачам в одно время</span>
+<span class="sd">        5. Врач не может иметь более 20 приемов в день</span>
+<span class="sd">        6. Между приемами должен быть интервал минимум 20 минут</span>
+<span class="sd">        7. Пациент может быть записан к одному врачу только один раз в день</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Попытка создания приема: patient_id=</span><span class="si">{</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;doctor_id=</span><span class="si">{</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2">, дата=</span><span class="si">{</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 1. Проверка существования пациента</span>
+        <span class="n">patient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">PatientDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">PatientDB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">patient</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Пациент с ID=</span><span class="si">{</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="si">}</span><span class="s2"> не найден&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;Пациент&quot;</span><span class="p">,</span> <span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">)</span>
+        
+        <span class="c1"># 2. Проверка существования врача</span>
+        <span class="n">doctor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DoctorDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">DoctorDB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">doctor</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Врач с ID=</span><span class="si">{</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2"> не найден&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;Врач&quot;</span><span class="p">,</span> <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">)</span>
+        
+        <span class="c1"># 3. Проверка конфликта времени у врача</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_doctor_time_conflict</span><span class="p">(</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_time</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 4. Проверка конфликта времени у пациента</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_patient_time_conflict</span><span class="p">(</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_time</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 5. Проверка максимального количества приемов в день у врача</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_max_appointments_per_day</span><span class="p">(</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 6. Проверка минимального интервала между приемами</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_minimum_interval</span><span class="p">(</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_time</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># 7. Проверка: пациент уже записан к этому врачу в этот день</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_patient_doctor_same_day</span><span class="p">(</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># Все проверки пройдены, создаем запись</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">db_appointment</span> <span class="o">=</span> <span class="n">AppointmentDB</span><span class="p">(</span>
+                <span class="n">patient_id</span><span class="o">=</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">patient_id</span><span class="p">,</span>
+                <span class="n">doctor_id</span><span class="o">=</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">doctor_id</span><span class="p">,</span>
+                <span class="n">appointment_date</span><span class="o">=</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_date</span><span class="p">,</span>
+                <span class="n">appointment_time</span><span class="o">=</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">appointment_time</span><span class="p">,</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">appointment_data</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
+                <span class="n">diagnosis</span><span class="o">=</span><span class="kc">None</span>
+            <span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">db_appointment</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">db_appointment</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Прием успешно создан с ID=</span><span class="si">{</span><span class="n">db_appointment</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">db_appointment</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при создании приема: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DatabaseException</span><span class="p">(</span><span class="s2">&quot;Ошибка при создании приема в базе данных&quot;</span><span class="p">)</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_doctor_time_conflict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">appt_time</span><span class="p">:</span> <span class="n">time</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка: у врача нет другого приема в это время&quot;&quot;&quot;</span>
+        <span class="n">conflict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_time</span> <span class="o">==</span> <span class="n">appt_time</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;scheduled&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">conflict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Конфликт времени у врача ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2"> на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">appt_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TimeConflictException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;У врача уже есть прием на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> в </span><span class="si">{</span><span class="n">appt_time</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_patient_time_conflict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">appt_time</span><span class="p">:</span> <span class="n">time</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка: пациент не записан к другому врачу в это время&quot;&quot;&quot;</span>
+        <span class="n">conflict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">patient_id</span> <span class="o">==</span> <span class="n">patient_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_time</span> <span class="o">==</span> <span class="n">appt_time</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;scheduled&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">conflict</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Пациент ID=</span><span class="si">{</span><span class="n">patient_id</span><span class="si">}</span><span class="s2"> уже записан на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">appt_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TimeConflictException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Пациент уже записан к другому врачу на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> в </span><span class="si">{</span><span class="n">appt_time</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_max_appointments_per_day</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка: врач не превысил лимит приемов в день&quot;&quot;&quot;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;scheduled&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MAX_APPOINTMENTS_PER_DAY</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Врач ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2"> достиг лимита приемов на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">MAX_APPOINTMENTS_PER_DAY</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MaxAppointmentsExceededException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Врач не может принять более </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">MAX_APPOINTMENTS_PER_DAY</span><span class="si">}</span><span class="s2"> пациентов в день. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;На </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2"> уже </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> записей.&quot;</span>
+            <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_minimum_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="n">appt_time</span><span class="p">:</span> <span class="n">time</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка: между приемами минимум 20 минут&quot;&quot;&quot;</span>
+        <span class="c1"># Преобразуем time в datetime для вычислений</span>
+        <span class="n">appt_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">appt_date</span><span class="p">,</span> <span class="n">appt_time</span><span class="p">)</span>
+        <span class="n">min_interval</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MIN_APPOINTMENT_INTERVAL_MINUTES</span><span class="p">)</span>
+        
+        <span class="c1"># Ищем приемы в пределах интервала</span>
+        <span class="n">all_appointments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;scheduled&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">appointment</span> <span class="ow">in</span> <span class="n">all_appointments</span><span class="p">:</span>
+            <span class="n">existing_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">appt_date</span><span class="p">,</span> <span class="n">appointment</span><span class="o">.</span><span class="n">appointment_time</span><span class="p">)</span>
+            <span class="n">time_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">appt_datetime</span> <span class="o">-</span> <span class="n">existing_datetime</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">time_diff</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MIN_APPOINTMENT_INTERVAL_MINUTES</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Слишком малый интервал между приемами врача ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">time_diff</span><span class="si">}</span><span class="s2"> минут&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BusinessLogicException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Между приемами должен быть интервал минимум </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">MIN_APPOINTMENT_INTERVAL_MINUTES</span><span class="si">}</span><span class="s2"> минут. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Ближайший прием в </span><span class="si">{</span><span class="n">appointment</span><span class="o">.</span><span class="n">appointment_time</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_patient_doctor_same_day</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка: пациент не записан к этому врачу в этот день&quot;&quot;&quot;</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">patient_id</span> <span class="o">==</span> <span class="n">patient_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">,</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;scheduled&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">existing</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Пациент ID=</span><span class="si">{</span><span class="n">patient_id</span><span class="si">}</span><span class="s2"> уже записан к врачу ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2"> на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">BusinessLogicException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Пациент уже записан к этому врачу на </span><span class="si">{</span><span class="n">appt_date</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    
+<div class="viewcode-block" id="AppointmentService.get_appointment_by_id">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.get_appointment_by_id">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_appointment_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppointmentDB</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Получение приема по ID&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получение приема с ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">appointment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">appointment_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">appointment</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Прием с ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2"> не найден&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;Прием&quot;</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">appointment</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.get_patient_appointments">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.get_patient_appointments">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_patient_appointments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AppointmentDB</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Получение всех приемов пациента&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получение всех приемов пациента ID=</span><span class="si">{</span><span class="n">patient_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Проверка существования пациента</span>
+        <span class="n">patient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">PatientDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">PatientDB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">patient_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">patient</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;Пациент&quot;</span><span class="p">,</span> <span class="n">patient_id</span><span class="p">)</span>
+        
+        <span class="n">appointments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">patient_id</span> <span class="o">==</span> <span class="n">patient_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">appointments</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.get_doctor_appointments">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.get_doctor_appointments">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_doctor_appointments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appt_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AppointmentDB</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Получение всех приемов врача (опционально за конкретную дату)&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получение приемов врача ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Проверка существования врача</span>
+        <span class="n">doctor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DoctorDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DoctorDB</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">doctor</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;Врач&quot;</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">)</span>
+        
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">appt_date</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appt_date</span><span class="p">)</span>
+        
+        <span class="n">appointments</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span><span class="o">.</span><span class="n">desc</span><span class="p">(),</span>
+            <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_time</span><span class="o">.</span><span class="n">asc</span><span class="p">()</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">appointments</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.update_appointment">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.update_appointment">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_appointment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appointment_data</span><span class="p">:</span> <span class="n">AppointmentUpdate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppointmentDB</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Обновление приема</span>
+<span class="sd">        </span>
+<span class="sd">        Бизнес-правила:</span>
+<span class="sd">        - Нельзя установить диагноз для отмененного приема</span>
+<span class="sd">        - Нельзя отменить завершенный прием</span>
+<span class="sd">        - Прием можно завершить только в день проведения или позже</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Обновление приема ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">appointment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_appointment_by_id</span><span class="p">(</span><span class="n">appointment_id</span><span class="p">)</span>
+        <span class="n">update_data</span> <span class="o">=</span> <span class="n">appointment_data</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="c1"># Валидация изменения статуса</span>
+        <span class="k">if</span> <span class="s1">&#39;status&#39;</span> <span class="ow">in</span> <span class="n">update_data</span><span class="p">:</span>
+            <span class="n">new_status</span> <span class="o">=</span> <span class="n">update_data</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+            
+            <span class="c1"># Нельзя отменить завершенный прием</span>
+            <span class="k">if</span> <span class="n">appointment</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;completed&#39;</span> <span class="ow">and</span> <span class="n">new_status</span> <span class="o">==</span> <span class="s1">&#39;cancelled&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Попытка отменить завершенный прием ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BusinessLogicException</span><span class="p">(</span><span class="s2">&quot;Нельзя отменить завершенный прием&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Прием можно завершить только в день проведения или позже</span>
+            <span class="k">if</span> <span class="n">new_status</span> <span class="o">==</span> <span class="s1">&#39;completed&#39;</span> <span class="ow">and</span> <span class="n">appointment</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">&gt;</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Попытка завершить будущий прием ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BusinessLogicException</span><span class="p">(</span>
+                    <span class="s2">&quot;Прием можно завершить только в день его проведения или позже&quot;</span>
+                <span class="p">)</span>
+        
+        <span class="c1"># Валидация диагноза</span>
+        <span class="k">if</span> <span class="s1">&#39;diagnosis&#39;</span> <span class="ow">in</span> <span class="n">update_data</span><span class="p">:</span>
+            <span class="c1"># Нельзя установить диагноз для отмененного приема</span>
+            <span class="k">if</span> <span class="n">appointment</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;cancelled&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Попытка установить диагноз для отмененного приема ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BusinessLogicException</span><span class="p">(</span><span class="s2">&quot;Нельзя установить диагноз для отмененного приема&quot;</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">update_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">appointment</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">appointment</span><span class="p">)</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Прием ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2"> успешно обновлен&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">appointment</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при обновлении приема: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.cancel_appointment">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.cancel_appointment">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cancel_appointment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppointmentDB</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Отменить прием (установить статус cancelled)&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Отмена приема ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">update_data</span> <span class="o">=</span> <span class="n">AppointmentUpdate</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;cancelled&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_appointment</span><span class="p">(</span><span class="n">appointment_id</span><span class="p">,</span> <span class="n">update_data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.complete_appointment">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.complete_appointment">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">complete_appointment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">diagnosis</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppointmentDB</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Завершить прием (установить статус completed и диагноз)&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Завершение приема ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">update_data</span> <span class="o">=</span> <span class="n">AppointmentUpdate</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;completed&quot;</span><span class="p">,</span> <span class="n">diagnosis</span><span class="o">=</span><span class="n">diagnosis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_appointment</span><span class="p">(</span><span class="n">appointment_id</span><span class="p">,</span> <span class="n">update_data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.delete_appointment">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.delete_appointment">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_appointment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appointment_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Удаление записи о приеме&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Удаление приема ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">appointment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_appointment_by_id</span><span class="p">(</span><span class="n">appointment_id</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">appointment</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Прием ID=</span><span class="si">{</span><span class="n">appointment_id</span><span class="si">}</span><span class="s2"> успешно удален&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Прием успешно удален&quot;</span><span class="p">}</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка при удалении приема: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">DatabaseException</span><span class="p">(</span><span class="s2">&quot;Ошибка при удалении приема из базы данных&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentService.get_all_appointments">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.get_all_appointments">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_appointments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AppointmentDB</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Получение списка всех приемов&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получение списка всех приемов (skip=</span><span class="si">{</span><span class="n">skip</span><span class="si">}</span><span class="s2">, limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+        <span class="n">appointments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">skip</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">appointments</span></div>
+
+
+<div class="viewcode-block" id="AppointmentService.get_doctor_schedule">
+<a class="viewcode-back" href="../../../api/services.html#app.services.appointment_service.AppointmentService.get_doctor_schedule">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_doctor_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">appointment_date</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AppointmentDB</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Получение расписания врача на определенную дату</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            doctor_id: ID врача</span>
+<span class="sd">            appointment_date: Дата для получения расписания</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List[AppointmentDB]: Список записей на прием, отсортированный по времени</span>
+<span class="sd">            </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; service = AppointmentService(db)</span>
+<span class="sd">            &gt;&gt;&gt; schedule = service.get_doctor_schedule(doctor_id=1, appointment_date=date(2025, 12, 15))</span>
+<span class="sd">            &gt;&gt;&gt; print(f&quot;У врача {len(schedule)} записей на эту дату&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Получение расписания врача ID=</span><span class="si">{</span><span class="n">doctor_id</span><span class="si">}</span><span class="s2"> на дату </span><span class="si">{</span><span class="n">appointment_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="n">appointments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">and_</span><span class="p">(</span>
+                <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">doctor_id</span> <span class="o">==</span> <span class="n">doctor_id</span><span class="p">,</span>
+                <span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_date</span> <span class="o">==</span> <span class="n">appointment_date</span>
+            <span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">AppointmentDB</span><span class="o">.</span><span class="n">appointment_time</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Найдено </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">appointments</span><span class="p">)</span><span class="si">}</span><span class="s2"> записей&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">appointments</span></div>
+</div>
+
+    
+
+   
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Buze. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.exceptions.custom_exceptions &mdash; документация REST-сервис Поликлиника 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e35015f7"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=cd1d70c9"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            REST-сервис Поликлиника
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Содержание:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Обзор проекта</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id2">Назначение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id3">Функциональные требования</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id4">Пациенты</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id5">Врачи</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id6">Записи на приём</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id7">Бизнес-правила</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Установка и настройка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id2">Системные требования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id3">Установка</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id4">1. Клонирование репозитория</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id5">2. Создание виртуального окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id6">3. Установка зависимостей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id7">4. Настройка переменных окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id8">5. Инициализация базы данных</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id9">Запуск</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id10">Локальный сервер</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id11">Проверка работы</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id12">Тестирование</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Архитектура системы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id2">Структура проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id3">Архитектурные слои</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id4">Паттерны проектирования</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#repository-pattern">Repository Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#dependency-injection">Dependency Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#dto-pattern">DTO Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id5">Обработка ошибок</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html">Модели данных</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/models.html#module-app.models.entities">Entities (Dataclass)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Patient"><code class="docutils literal notranslate"><span class="pre">Patient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Doctor"><code class="docutils literal notranslate"><span class="pre">Doctor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Appointment"><code class="docutils literal notranslate"><span class="pre">Appointment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/models.html#module-app.models.database">Database (SQLAlchemy)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.PatientDB"><code class="docutils literal notranslate"><span class="pre">PatientDB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.DoctorDB"><code class="docutils literal notranslate"><span class="pre">DoctorDB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.AppointmentDB"><code class="docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/schemas.html">Pydantic схемы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate"><code class="docutils literal notranslate"><span class="pre">PatientCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.fio"><code class="docutils literal notranslate"><span class="pre">PatientCreate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientCreate.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.phone"><code class="docutils literal notranslate"><span class="pre">PatientCreate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.address"><code class="docutils literal notranslate"><span class="pre">PatientCreate.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientCreate.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_fio"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_birth_date"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_birth_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_phone"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_insurance_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.model_config"><code class="docutils literal notranslate"><span class="pre">PatientCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate"><code class="docutils literal notranslate"><span class="pre">PatientUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.fio"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.phone"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.address"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_fio"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_birth_date"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_birth_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_phone"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_insurance_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse"><code class="docutils literal notranslate"><span class="pre">PatientResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.id"><code class="docutils literal notranslate"><span class="pre">PatientResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.fio"><code class="docutils literal notranslate"><span class="pre">PatientResponse.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientResponse.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.phone"><code class="docutils literal notranslate"><span class="pre">PatientResponse.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.address"><code class="docutils literal notranslate"><span class="pre">PatientResponse.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientResponse.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.model_config"><code class="docutils literal notranslate"><span class="pre">PatientResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate"><code class="docutils literal notranslate"><span class="pre">DoctorCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.fio"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.phone"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_fio"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_specialization"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_specialization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_phone"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.fio"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.phone"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_fio"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_phone"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse"><code class="docutils literal notranslate"><span class="pre">DoctorResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.id"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.fio"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.phone"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.patient_id"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.patient_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.doctor_id"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.doctor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.status"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_appointment_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_appointment_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_status"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.status"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.validate_status"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.validate_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.patient_id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.patient_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.doctor_id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.doctor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.status"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.id"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.status"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.patient"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.patient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.doctor"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.doctor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.model_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/services.html">Сервисный слой</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.patient_service">Patient Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.patient_service.PatientService"><code class="docutils literal notranslate"><span class="pre">PatientService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.doctor_service">Doctor Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.doctor_service.DoctorService"><code class="docutils literal notranslate"><span class="pre">DoctorService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.appointment_service">Appointment Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.appointment_service.AppointmentService"><code class="docutils literal notranslate"><span class="pre">AppointmentService</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/controllers.html">Контроллеры (API Endpoints)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.patient_controller">Patient Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.create_patient"><code class="docutils literal notranslate"><span class="pre">create_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_patient"><code class="docutils literal notranslate"><span class="pre">get_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_all_patients"><code class="docutils literal notranslate"><span class="pre">get_all_patients()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.update_patient"><code class="docutils literal notranslate"><span class="pre">update_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.delete_patient"><code class="docutils literal notranslate"><span class="pre">delete_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.doctor_controller">Doctor Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.create_doctor"><code class="docutils literal notranslate"><span class="pre">create_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctor"><code class="docutils literal notranslate"><span class="pre">get_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctors"><code class="docutils literal notranslate"><span class="pre">get_doctors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.update_doctor"><code class="docutils literal notranslate"><span class="pre">update_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.delete_doctor"><code class="docutils literal notranslate"><span class="pre">delete_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctor_schedule"><code class="docutils literal notranslate"><span class="pre">get_doctor_schedule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.appointment_controller">Appointment Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.create_appointment"><code class="docutils literal notranslate"><span class="pre">create_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_appointment"><code class="docutils literal notranslate"><span class="pre">get_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_doctor_appointments"><code class="docutils literal notranslate"><span class="pre">get_doctor_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_all_appointments"><code class="docutils literal notranslate"><span class="pre">get_all_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.update_appointment"><code class="docutils literal notranslate"><span class="pre">update_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.cancel_appointment"><code class="docutils literal notranslate"><span class="pre">cancel_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.complete_appointment"><code class="docutils literal notranslate"><span class="pre">complete_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.delete_appointment"><code class="docutils literal notranslate"><span class="pre">delete_appointment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/exceptions.html">Исключения</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException"><code class="docutils literal notranslate"><span class="pre">ClinicException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException.__init__"><code class="docutils literal notranslate"><span class="pre">ClinicException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException"><code class="docutils literal notranslate"><span class="pre">ValidationException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException.__init__"><code class="docutils literal notranslate"><span class="pre">ValidationException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException"><code class="docutils literal notranslate"><span class="pre">NotFoundException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException.__init__"><code class="docutils literal notranslate"><span class="pre">NotFoundException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException"><code class="docutils literal notranslate"><span class="pre">AlreadyExistsException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException.__init__"><code class="docutils literal notranslate"><span class="pre">AlreadyExistsException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException"><code class="docutils literal notranslate"><span class="pre">TimeConflictException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException.__init__"><code class="docutils literal notranslate"><span class="pre">TimeConflictException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException"><code class="docutils literal notranslate"><span class="pre">MaxAppointmentsExceededException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException.__init__"><code class="docutils literal notranslate"><span class="pre">MaxAppointmentsExceededException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException"><code class="docutils literal notranslate"><span class="pre">BusinessLogicException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException.__init__"><code class="docutils literal notranslate"><span class="pre">BusinessLogicException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException"><code class="docutils literal notranslate"><span class="pre">DatabaseException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException.__init__"><code class="docutils literal notranslate"><span class="pre">DatabaseException.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/index.html#id1">Модули</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Примеры использования</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#python">Python примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id2">Создание пациента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id3">Запись на приём</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id4">Получение расписания врача</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#curl">curl примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id5">Создание врача</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id6">Получение списка пациентов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id7">История приёмов пациента</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Развёртывание</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../deployment.html#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#dockerfile">Dockerfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#docker-compose-yml">docker-compose.yml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../deployment.html#production">Production</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#gunicorn-nginx">Gunicorn + Nginx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">REST-сервис Поликлиника</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Код модуля</a></li>
+      <li class="breadcrumb-item active">app.exceptions.custom_exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Исходный код app.exceptions.custom_exceptions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Пользовательские исключения для REST-сервиса &quot;Поликлиника&quot;</span>
+
+<span class="sd">Все операции должны иметь защиту в виде обработки пользовательских исключений.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ClinicException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ClinicException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Базовое исключение для всех ошибок поликлиники&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ClinicException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ValidationException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ValidationException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение валидации данных&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ValidationException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">field</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NotFoundException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotFoundException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение - объект не найден&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NotFoundException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">entity</span><span class="si">}</span><span class="s2"> с ID=</span><span class="si">{</span><span class="n">entity_id</span><span class="si">}</span><span class="s2"> не найден&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AlreadyExistsException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlreadyExistsException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение - объект уже существует&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AlreadyExistsException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">409</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TimeConflictException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimeConflictException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение - конфликт времени приема&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TimeConflictException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">409</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MaxAppointmentsExceededException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MaxAppointmentsExceededException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение - превышено максимальное количество приемов&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MaxAppointmentsExceededException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">422</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BusinessLogicException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BusinessLogicException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение бизнес-логики&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BusinessLogicException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">422</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DatabaseException">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DatabaseException</span><span class="p">(</span><span class="n">ClinicException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Исключение работы с базой данных&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DatabaseException.__init__">
+<a class="viewcode-back" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException.__init__">[документация]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Buze. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

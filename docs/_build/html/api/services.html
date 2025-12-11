@@ -1,0 +1,686 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сервисный слой &mdash; документация REST-сервис Поликлиника 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e35015f7"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=cd1d70c9"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            REST-сервис Поликлиника
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Сервисный слой</a><ul>
+<li><a class="reference internal" href="#module-app.services.patient_service">Patient Service</a><ul>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService"><code class="docutils literal notranslate"><span class="pre">PatientService</span></code></a><ul>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.__init__"><code class="docutils literal notranslate"><span class="pre">PatientService.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.create_patient"><code class="docutils literal notranslate"><span class="pre">PatientService.create_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.get_patient_by_id"><code class="docutils literal notranslate"><span class="pre">PatientService.get_patient_by_id()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.get_all_patients"><code class="docutils literal notranslate"><span class="pre">PatientService.get_all_patients()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.update_patient"><code class="docutils literal notranslate"><span class="pre">PatientService.update_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.delete_patient"><code class="docutils literal notranslate"><span class="pre">PatientService.delete_patient()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.patient_service.PatientService.get_patient_count"><code class="docutils literal notranslate"><span class="pre">PatientService.get_patient_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-app.services.doctor_service">Doctor Service</a><ul>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService"><code class="docutils literal notranslate"><span class="pre">DoctorService</span></code></a><ul>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.MAX_ACTIVE_PATIENTS"><code class="docutils literal notranslate"><span class="pre">DoctorService.MAX_ACTIVE_PATIENTS</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.__init__"><code class="docutils literal notranslate"><span class="pre">DoctorService.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.create_doctor"><code class="docutils literal notranslate"><span class="pre">DoctorService.create_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.get_doctor_by_id"><code class="docutils literal notranslate"><span class="pre">DoctorService.get_doctor_by_id()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.get_all_doctors"><code class="docutils literal notranslate"><span class="pre">DoctorService.get_all_doctors()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.get_doctors_by_specialization"><code class="docutils literal notranslate"><span class="pre">DoctorService.get_doctors_by_specialization()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.update_doctor"><code class="docutils literal notranslate"><span class="pre">DoctorService.update_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.delete_doctor"><code class="docutils literal notranslate"><span class="pre">DoctorService.delete_doctor()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.get_doctor_active_patients_count"><code class="docutils literal notranslate"><span class="pre">DoctorService.get_doctor_active_patients_count()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.check_doctor_capacity"><code class="docutils literal notranslate"><span class="pre">DoctorService.check_doctor_capacity()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.doctor_service.DoctorService.get_doctor_count"><code class="docutils literal notranslate"><span class="pre">DoctorService.get_doctor_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-app.services.appointment_service">Appointment Service</a><ul>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService"><code class="docutils literal notranslate"><span class="pre">AppointmentService</span></code></a><ul>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.MAX_APPOINTMENTS_PER_DAY"><code class="docutils literal notranslate"><span class="pre">AppointmentService.MAX_APPOINTMENTS_PER_DAY</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.MIN_APPOINTMENT_INTERVAL_MINUTES"><code class="docutils literal notranslate"><span class="pre">AppointmentService.MIN_APPOINTMENT_INTERVAL_MINUTES</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.__init__"><code class="docutils literal notranslate"><span class="pre">AppointmentService.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.create_appointment"><code class="docutils literal notranslate"><span class="pre">AppointmentService.create_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.get_appointment_by_id"><code class="docutils literal notranslate"><span class="pre">AppointmentService.get_appointment_by_id()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">AppointmentService.get_patient_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.get_doctor_appointments"><code class="docutils literal notranslate"><span class="pre">AppointmentService.get_doctor_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.update_appointment"><code class="docutils literal notranslate"><span class="pre">AppointmentService.update_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.cancel_appointment"><code class="docutils literal notranslate"><span class="pre">AppointmentService.cancel_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.complete_appointment"><code class="docutils literal notranslate"><span class="pre">AppointmentService.complete_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.delete_appointment"><code class="docutils literal notranslate"><span class="pre">AppointmentService.delete_appointment()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.get_all_appointments"><code class="docutils literal notranslate"><span class="pre">AppointmentService.get_all_appointments()</span></code></a></li>
+<li><a class="reference internal" href="#app.services.appointment_service.AppointmentService.get_doctor_schedule"><code class="docutils literal notranslate"><span class="pre">AppointmentService.get_doctor_schedule()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">REST-сервис Поликлиника</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Сервисный слой</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/services.rst.txt" rel="nofollow"> Просмотреть исходный код страницы</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>Сервисный слой<a class="headerlink" href="#id1" title="Ссылка на этот заголовок"></a></h1>
+<section id="module-app.services.patient_service">
+<span id="patient-service"></span><h2>Patient Service<a class="headerlink" href="#module-app.services.patient_service" title="Ссылка на этот заголовок"></a></h2>
+<p>Сервис для работы с пациентами</p>
+<p>Реализует бизнес-логику и функциональные требования из курсовой работы</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.services.patient_service.</span></span><span class="sig-name descname"><span class="pre">PatientService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService" title="Ссылка на это определение"></a></dt>
+<dd><p>Базовые классы: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Сервис для управления пациентами</p>
+<p>Операции:
+- Создать нового пациента
+- Получить данные пациента по ID
+- Получить список всех пациентов
+- Редактировать существующего пациента
+- Удалить пациента</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.__init__"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.__init__" title="Ссылка на это определение"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.create_patient">
+<span class="sig-name descname"><span class="pre">create_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.create_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.create_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Создание нового пациента</p>
+<p>Валидация:
+- Уникальность номера полиса ОМС
+- Все обязательные поля заполнены</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.PatientDB" title="app.models.database.PatientDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatientDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>patient_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.PatientCreate" title="app.schemas.schemas.PatientCreate"><em>PatientCreate</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.get_patient_by_id">
+<span class="sig-name descname"><span class="pre">get_patient_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.get_patient_by_id"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.get_patient_by_id" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение пациента по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.PatientDB" title="app.models.database.PatientDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatientDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.get_all_patients">
+<span class="sig-name descname"><span class="pre">get_all_patients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.get_all_patients"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.get_all_patients" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение списка всех пациентов с пагинацией</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.PatientDB" title="app.models.database.PatientDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatientDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.update_patient">
+<span class="sig-name descname"><span class="pre">update_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patient_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.update_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.update_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновление данных пациента</p>
+<p>Валидация:
+- Пациент должен существовать
+- При изменении полиса проверяется уникальность</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.PatientDB" title="app.models.database.PatientDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">PatientDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>patient_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.PatientUpdate" title="app.schemas.schemas.PatientUpdate"><em>PatientUpdate</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.delete_patient">
+<span class="sig-name descname"><span class="pre">delete_patient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.delete_patient"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.delete_patient" title="Ссылка на это определение"></a></dt>
+<dd><p>Удаление пациента</p>
+<p>Бизнес-правила:
+- При удалении пациента все его приемы также удаляются (каскадное удаление)
+- Система предупреждает о наличии активных приемов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.patient_service.PatientService.get_patient_count">
+<span class="sig-name descname"><span class="pre">get_patient_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/patient_service.html#PatientService.get_patient_count"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.patient_service.PatientService.get_patient_count" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение общего количества пациентов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-app.services.doctor_service">
+<span id="doctor-service"></span><h2>Doctor Service<a class="headerlink" href="#module-app.services.doctor_service" title="Ссылка на этот заголовок"></a></h2>
+<p>Сервис для работы с врачами</p>
+<p>Реализует бизнес-логику согласно функциональным требованиям</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.services.doctor_service.</span></span><span class="sig-name descname"><span class="pre">DoctorService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService" title="Ссылка на это определение"></a></dt>
+<dd><p>Базовые классы: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Сервис для управления врачами</p>
+<p>Операции:
+- Добавить нового врача
+- Получить данные врача по ID
+- Получить список всех врачей
+- Получить врачей по специализации
+- Редактировать данные врача
+- Удалить врача</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.MAX_ACTIVE_PATIENTS">
+<span class="sig-name descname"><span class="pre">MAX_ACTIVE_PATIENTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#app.services.doctor_service.DoctorService.MAX_ACTIVE_PATIENTS" title="Ссылка на это определение"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.__init__"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.__init__" title="Ссылка на это определение"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.create_doctor">
+<span class="sig-name descname"><span class="pre">create_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.create_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.create_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Создание нового врача</p>
+<p>Валидация:
+- Все обязательные поля заполнены
+- Специализация из предопределенного списка
+- Стаж работы корректен</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.DoctorDB" title="app.models.database.DoctorDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoctorDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>doctor_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.DoctorCreate" title="app.schemas.schemas.DoctorCreate"><em>DoctorCreate</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.get_doctor_by_id">
+<span class="sig-name descname"><span class="pre">get_doctor_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.get_doctor_by_id"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.get_doctor_by_id" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение врача по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.DoctorDB" title="app.models.database.DoctorDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoctorDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.get_all_doctors">
+<span class="sig-name descname"><span class="pre">get_all_doctors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.get_all_doctors"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.get_all_doctors" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение списка всех врачей с пагинацией</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.DoctorDB" title="app.models.database.DoctorDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoctorDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.get_doctors_by_specialization">
+<span class="sig-name descname"><span class="pre">get_doctors_by_specialization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specialization</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.get_doctors_by_specialization"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.get_doctors_by_specialization" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение врачей по специализации</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.DoctorDB" title="app.models.database.DoctorDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoctorDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>specialization</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(в Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.update_doctor">
+<span class="sig-name descname"><span class="pre">update_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doctor_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.update_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.update_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновление данных врача</p>
+<p>Валидация:
+- Врач должен существовать
+- Новые данные валидны</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.DoctorDB" title="app.models.database.DoctorDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoctorDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>doctor_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.DoctorUpdate" title="app.schemas.schemas.DoctorUpdate"><em>DoctorUpdate</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.delete_doctor">
+<span class="sig-name descname"><span class="pre">delete_doctor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.delete_doctor"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.delete_doctor" title="Ссылка на это определение"></a></dt>
+<dd><p>Удаление врача</p>
+<p>Бизнес-правила:
+- Врач не может быть удален, если у него есть запланированные приемы
+- При удалении выводится информация о количестве отмененных приемов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.get_doctor_active_patients_count">
+<span class="sig-name descname"><span class="pre">get_doctor_active_patients_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.get_doctor_active_patients_count"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.get_doctor_active_patients_count" title="Ссылка на это определение"></a></dt>
+<dd><p>Подсчет количества активных пациентов врача
+(пациенты с запланированными приемами)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.check_doctor_capacity">
+<span class="sig-name descname"><span class="pre">check_doctor_capacity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.check_doctor_capacity"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.check_doctor_capacity" title="Ссылка на это определение"></a></dt>
+<dd><p>Проверка, может ли врач принять еще пациентов
+(не более 30 активных пациентов одновременно)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.doctor_service.DoctorService.get_doctor_count">
+<span class="sig-name descname"><span class="pre">get_doctor_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/doctor_service.html#DoctorService.get_doctor_count"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.doctor_service.DoctorService.get_doctor_count" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение общего количества врачей</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-app.services.appointment_service">
+<span id="appointment-service"></span><h2>Appointment Service<a class="headerlink" href="#module-app.services.appointment_service" title="Ссылка на этот заголовок"></a></h2>
+<p>Сервис для работы с приемами (записями пациентов к врачам)</p>
+<p>Реализует сложную бизнес-логику и все функциональные требования</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.services.appointment_service.</span></span><span class="sig-name descname"><span class="pre">AppointmentService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService" title="Ссылка на это определение"></a></dt>
+<dd><p>Базовые классы: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Сервис для управления приемами</p>
+<p>Операции:
+- Записать пациента на прием к врачу
+- Получить информацию о приеме
+- Получить все приемы пациента
+- Получить все приемы врача
+- Отменить прием
+- Завершить прием (установить диагноз)
+- Удалить запись о приеме</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.MAX_APPOINTMENTS_PER_DAY">
+<span class="sig-name descname"><span class="pre">MAX_APPOINTMENTS_PER_DAY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></em><a class="headerlink" href="#app.services.appointment_service.AppointmentService.MAX_APPOINTMENTS_PER_DAY" title="Ссылка на это определение"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.MIN_APPOINTMENT_INTERVAL_MINUTES">
+<span class="sig-name descname"><span class="pre">MIN_APPOINTMENT_INTERVAL_MINUTES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></em><a class="headerlink" href="#app.services.appointment_service.AppointmentService.MIN_APPOINTMENT_INTERVAL_MINUTES" title="Ссылка на это определение"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.__init__"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.__init__" title="Ссылка на это определение"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>db</strong> (<a class="reference external" href="https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session" title="(в SQLAlchemy v2.0)"><em>Session</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.create_appointment">
+<span class="sig-name descname"><span class="pre">create_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.create_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.create_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Создание новой записи на прием</p>
+<p>Валидация и бизнес-правила:
+1. Проверка существования пациента
+2. Проверка существования врача
+3. У врача не может быть двух приемов в одно время
+4. Пациент не может быть записан к двум врачам в одно время
+5. Врач не может иметь более 20 приемов в день
+6. Между приемами должен быть интервал минимум 20 минут
+7. Пациент может быть записан к одному врачу только один раз в день</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>appointment_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.AppointmentCreate" title="app.schemas.schemas.AppointmentCreate"><em>AppointmentCreate</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.get_appointment_by_id">
+<span class="sig-name descname"><span class="pre">get_appointment_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.get_appointment_by_id"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.get_appointment_by_id" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение приема по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.get_patient_appointments">
+<span class="sig-name descname"><span class="pre">get_patient_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.get_patient_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.get_patient_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение всех приемов пациента</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>patient_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.get_doctor_appointments">
+<span class="sig-name descname"><span class="pre">get_doctor_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appt_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.get_doctor_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.get_doctor_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение всех приемов врача (опционально за конкретную дату)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>appt_date</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(в Python v3.14)"><em>date</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.update_appointment">
+<span class="sig-name descname"><span class="pre">update_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appointment_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.update_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.update_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Обновление приема</p>
+<p>Бизнес-правила:
+- Нельзя установить диагноз для отмененного приема
+- Нельзя отменить завершенный прием
+- Прием можно завершить только в день проведения или позже</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>appointment_data</strong> (<a class="reference internal" href="schemas.html#app.schemas.schemas.AppointmentUpdate" title="app.schemas.schemas.AppointmentUpdate"><em>AppointmentUpdate</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.cancel_appointment">
+<span class="sig-name descname"><span class="pre">cancel_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.cancel_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.cancel_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Отменить прием (установить статус cancelled)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.complete_appointment">
+<span class="sig-name descname"><span class="pre">complete_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagnosis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.complete_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.complete_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Завершить прием (установить статус completed и диагноз)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>diagnosis</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(в Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.delete_appointment">
+<span class="sig-name descname"><span class="pre">delete_appointment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">appointment_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.delete_appointment"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.delete_appointment" title="Ссылка на это определение"></a></dt>
+<dd><p>Удаление записи о приеме</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>appointment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.get_all_appointments">
+<span class="sig-name descname"><span class="pre">get_all_appointments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.get_all_appointments"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.get_all_appointments" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение списка всех приемов</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Параметры<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>skip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="app.services.appointment_service.AppointmentService.get_doctor_schedule">
+<span class="sig-name descname"><span class="pre">get_doctor_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doctor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appointment_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/services/appointment_service.html#AppointmentService.get_doctor_schedule"><span class="viewcode-link"><span class="pre">[исходный</span> <span class="pre">код]</span></span></a><a class="headerlink" href="#app.services.appointment_service.AppointmentService.get_doctor_schedule" title="Ссылка на это определение"></a></dt>
+<dd><p>Получение расписания врача на определенную дату</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doctor_id</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – ID врача</p></li>
+<li><p><strong>appointment_date</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(в Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a></span>) – Дата для получения расписания</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список записей на прием, отсортированный по времени</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="models.html#app.models.database.AppointmentDB" title="app.models.database.AppointmentDB">AppointmentDB</a>]</p>
+</dd>
+</dl>
+<p class="rubric">Пример</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">service</span> <span class="o">=</span> <span class="n">AppointmentService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schedule</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">get_doctor_schedule</span><span class="p">(</span><span class="n">doctor_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">appointment_date</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;У врача </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span><span class="si">}</span><span class="s2"> записей на эту дату&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Buze. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.schemas.schemas &mdash; документация REST-сервис Поликлиника 1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=e35015f7"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=cd1d70c9"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            REST-сервис Поликлиника
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Содержание:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Обзор проекта</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id2">Назначение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id3">Функциональные требования</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id4">Пациенты</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id5">Врачи</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../overview.html#id6">Записи на приём</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../overview.html#id7">Бизнес-правила</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Установка и настройка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id2">Системные требования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id3">Установка</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id4">1. Клонирование репозитория</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id5">2. Создание виртуального окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id6">3. Установка зависимостей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id7">4. Настройка переменных окружения</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id8">5. Инициализация базы данных</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id9">Запуск</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id10">Локальный сервер</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installation.html#id11">Проверка работы</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#id12">Тестирование</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Архитектура системы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id2">Структура проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id3">Архитектурные слои</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id4">Паттерны проектирования</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#repository-pattern">Repository Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#dependency-injection">Dependency Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#dto-pattern">DTO Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#id5">Обработка ошибок</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html">Модели данных</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/models.html#module-app.models.entities">Entities (Dataclass)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Patient"><code class="docutils literal notranslate"><span class="pre">Patient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Doctor"><code class="docutils literal notranslate"><span class="pre">Doctor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.entities.Appointment"><code class="docutils literal notranslate"><span class="pre">Appointment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/models.html#module-app.models.database">Database (SQLAlchemy)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.PatientDB"><code class="docutils literal notranslate"><span class="pre">PatientDB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.DoctorDB"><code class="docutils literal notranslate"><span class="pre">DoctorDB</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/models.html#app.models.database.AppointmentDB"><code class="docutils literal notranslate"><span class="pre">AppointmentDB</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/schemas.html">Pydantic схемы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate"><code class="docutils literal notranslate"><span class="pre">PatientCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.fio"><code class="docutils literal notranslate"><span class="pre">PatientCreate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientCreate.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.phone"><code class="docutils literal notranslate"><span class="pre">PatientCreate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.address"><code class="docutils literal notranslate"><span class="pre">PatientCreate.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientCreate.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_fio"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_birth_date"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_birth_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_phone"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientCreate.validate_insurance_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.model_config"><code class="docutils literal notranslate"><span class="pre">PatientCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate"><code class="docutils literal notranslate"><span class="pre">PatientUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.fio"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.phone"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.address"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_fio"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_birth_date"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_birth_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_phone"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.validate_insurance_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">PatientUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse"><code class="docutils literal notranslate"><span class="pre">PatientResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.id"><code class="docutils literal notranslate"><span class="pre">PatientResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.fio"><code class="docutils literal notranslate"><span class="pre">PatientResponse.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.birth_date"><code class="docutils literal notranslate"><span class="pre">PatientResponse.birth_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.phone"><code class="docutils literal notranslate"><span class="pre">PatientResponse.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.address"><code class="docutils literal notranslate"><span class="pre">PatientResponse.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.insurance_number"><code class="docutils literal notranslate"><span class="pre">PatientResponse.insurance_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse.model_config"><code class="docutils literal notranslate"><span class="pre">PatientResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate"><code class="docutils literal notranslate"><span class="pre">DoctorCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.fio"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.phone"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_fio"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_specialization"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_specialization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_phone"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.fio"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.phone"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_fio"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.validate_fio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_phone"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse"><code class="docutils literal notranslate"><span class="pre">DoctorResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.id"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.fio"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.fio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.specialization"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.specialization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.cabinet_number"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.cabinet_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.phone"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.experience_years"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.experience_years</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse.model_config"><code class="docutils literal notranslate"><span class="pre">DoctorResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.patient_id"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.patient_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.doctor_id"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.doctor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.status"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_appointment_date()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_appointment_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_status"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.validate_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.status"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.validate_status"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.validate_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentUpdate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.patient_id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.patient_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.doctor_id"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.doctor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.status"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.id"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.appointment_date"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.appointment_date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.appointment_time"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.appointment_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.diagnosis"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.diagnosis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.status"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.patient"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.patient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.doctor"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.doctor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse.model_config"><code class="docutils literal notranslate"><span class="pre">AppointmentDetailResponse.model_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/services.html">Сервисный слой</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.patient_service">Patient Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.patient_service.PatientService"><code class="docutils literal notranslate"><span class="pre">PatientService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.doctor_service">Doctor Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.doctor_service.DoctorService"><code class="docutils literal notranslate"><span class="pre">DoctorService</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/services.html#module-app.services.appointment_service">Appointment Service</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/services.html#app.services.appointment_service.AppointmentService"><code class="docutils literal notranslate"><span class="pre">AppointmentService</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/controllers.html">Контроллеры (API Endpoints)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.patient_controller">Patient Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.create_patient"><code class="docutils literal notranslate"><span class="pre">create_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_patient"><code class="docutils literal notranslate"><span class="pre">get_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_all_patients"><code class="docutils literal notranslate"><span class="pre">get_all_patients()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.update_patient"><code class="docutils literal notranslate"><span class="pre">update_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.delete_patient"><code class="docutils literal notranslate"><span class="pre">delete_patient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.patient_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.doctor_controller">Doctor Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.create_doctor"><code class="docutils literal notranslate"><span class="pre">create_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctor"><code class="docutils literal notranslate"><span class="pre">get_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctors"><code class="docutils literal notranslate"><span class="pre">get_doctors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.update_doctor"><code class="docutils literal notranslate"><span class="pre">update_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.delete_doctor"><code class="docutils literal notranslate"><span class="pre">delete_doctor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.doctor_controller.get_doctor_schedule"><code class="docutils literal notranslate"><span class="pre">get_doctor_schedule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/controllers.html#module-app.controllers.appointment_controller">Appointment Controller</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.create_appointment"><code class="docutils literal notranslate"><span class="pre">create_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_appointment"><code class="docutils literal notranslate"><span class="pre">get_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_patient_appointments"><code class="docutils literal notranslate"><span class="pre">get_patient_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_doctor_appointments"><code class="docutils literal notranslate"><span class="pre">get_doctor_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.get_all_appointments"><code class="docutils literal notranslate"><span class="pre">get_all_appointments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.update_appointment"><code class="docutils literal notranslate"><span class="pre">update_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.cancel_appointment"><code class="docutils literal notranslate"><span class="pre">cancel_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.complete_appointment"><code class="docutils literal notranslate"><span class="pre">complete_appointment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/controllers.html#app.controllers.appointment_controller.delete_appointment"><code class="docutils literal notranslate"><span class="pre">delete_appointment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/exceptions.html">Исключения</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException"><code class="docutils literal notranslate"><span class="pre">ClinicException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ClinicException.__init__"><code class="docutils literal notranslate"><span class="pre">ClinicException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException"><code class="docutils literal notranslate"><span class="pre">ValidationException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.ValidationException.__init__"><code class="docutils literal notranslate"><span class="pre">ValidationException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException"><code class="docutils literal notranslate"><span class="pre">NotFoundException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.NotFoundException.__init__"><code class="docutils literal notranslate"><span class="pre">NotFoundException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException"><code class="docutils literal notranslate"><span class="pre">AlreadyExistsException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.AlreadyExistsException.__init__"><code class="docutils literal notranslate"><span class="pre">AlreadyExistsException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException"><code class="docutils literal notranslate"><span class="pre">TimeConflictException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.TimeConflictException.__init__"><code class="docutils literal notranslate"><span class="pre">TimeConflictException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException"><code class="docutils literal notranslate"><span class="pre">MaxAppointmentsExceededException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.MaxAppointmentsExceededException.__init__"><code class="docutils literal notranslate"><span class="pre">MaxAppointmentsExceededException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException"><code class="docutils literal notranslate"><span class="pre">BusinessLogicException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.BusinessLogicException.__init__"><code class="docutils literal notranslate"><span class="pre">BusinessLogicException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException"><code class="docutils literal notranslate"><span class="pre">DatabaseException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/exceptions.html#app.exceptions.custom_exceptions.DatabaseException.__init__"><code class="docutils literal notranslate"><span class="pre">DatabaseException.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/index.html#id1">Модули</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Примеры использования</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#python">Python примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id2">Создание пациента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id3">Запись на приём</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id4">Получение расписания врача</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#curl">curl примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id5">Создание врача</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id6">Получение списка пациентов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../examples.html#id7">История приёмов пациента</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment.html">Развёртывание</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../deployment.html#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#dockerfile">Dockerfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#docker-compose-yml">docker-compose.yml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../deployment.html#production">Production</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../deployment.html#gunicorn-nginx">Gunicorn + Nginx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">REST-сервис Поликлиника</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Код модуля</a></li>
+      <li class="breadcrumb-item active">app.schemas.schemas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Исходный код app.schemas.schemas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Pydantic схемы для валидации входных/выходных данных</span>
+
+<span class="sd">Реализуют функциональные требования из курсовой работы:</span>
+<span class="sd">- Валидация вводимых значений</span>
+<span class="sd">- Проверка форматов данных</span>
+<span class="sd">- Преобразование типов</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">ConfigDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="c1"># ==================== СХЕМЫ ДЛЯ ПАЦИЕНТОВ ====================</span>
+
+<div class="viewcode-block" id="PatientCreate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatientCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для создания пациента&quot;&quot;&quot;</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ФИО пациента (минимум 3 слова)&quot;</span><span class="p">)</span>
+    <span class="n">birth_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Дата рождения&quot;</span><span class="p">)</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Номер телефона в формате +7XXXXXXXXXX&quot;</span><span class="p">)</span>
+    <span class="n">address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Адрес проживания&quot;</span><span class="p">)</span>
+    <span class="n">insurance_number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Номер полиса ОМС (16 цифр)&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PatientCreate.validate_fio">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_fio">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;fio&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_fio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ФИО должно содержать минимум 3 слова (фамилия, имя, отчество)&quot;&quot;&quot;</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;ФИО должно содержать минимум 3 слова (Фамилия Имя Отчество)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientCreate.validate_birth_date">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_birth_date">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;birth_date&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_birth_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Дата рождения не может быть в будущем и не раньше 1900 года&quot;&quot;&quot;</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">today</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Дата рождения не может быть в будущем&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="mi">1900</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Дата рождения не может быть раньше 1900 года&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientCreate.validate_phone">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_phone">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_phone</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Номер телефона должен соответствовать формату +7XXXXXXXXXX&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientCreate.validate_insurance_number">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientCreate.validate_insurance_number">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;insurance_number&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_insurance_number</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Номер полиса ОМС должен содержать 16 цифр&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\d</span><span class="si">{16}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер полиса ОМС должен содержать ровно 16 цифр&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PatientUpdate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatientUpdate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для обновления пациента&quot;&quot;&quot;</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">birth_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">insurance_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<div class="viewcode-block" id="PatientUpdate.validate_fio">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_fio">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;fio&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_fio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;ФИО должно содержать минимум 3 слова&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientUpdate.validate_birth_date">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_birth_date">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;birth_date&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_birth_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">today</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Дата рождения не может быть в будущем&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="mi">1900</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Дата рождения не может быть раньше 1900 года&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientUpdate.validate_phone">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_phone">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_phone</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="PatientUpdate.validate_insurance_number">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientUpdate.validate_insurance_number">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;insurance_number&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_insurance_number</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\d</span><span class="si">{16}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер полиса ОМС должен содержать ровно 16 цифр&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PatientResponse">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.PatientResponse">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatientResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема ответа с данными пациента&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">birth_date</span><span class="p">:</span> <span class="n">date</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">address</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">insurance_number</span><span class="p">:</span> <span class="nb">str</span>
+    
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ==================== СХЕМЫ ДЛЯ ВРАЧЕЙ ====================</span>
+
+<div class="viewcode-block" id="DoctorCreate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DoctorCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для создания врача&quot;&quot;&quot;</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ФИО врача&quot;</span><span class="p">)</span>
+    <span class="n">specialization</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Специализация врача&quot;</span><span class="p">)</span>
+    <span class="n">cabinet_number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Номер кабинета&quot;</span><span class="p">)</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Номер телефона&quot;</span><span class="p">)</span>
+    <span class="n">experience_years</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Стаж работы в годах&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="DoctorCreate.validate_fio">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_fio">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;fio&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_fio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ФИО должно содержать минимум 3 слова&quot;&quot;&quot;</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;ФИО должно содержать минимум 3 слова (Фамилия Имя Отчество)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="DoctorCreate.validate_specialization">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_specialization">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;specialization&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_specialization</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Специализация должна быть из предопределенного списка&quot;&quot;&quot;</span>
+        <span class="n">valid_specializations</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;Терапевт&#39;</span><span class="p">,</span> <span class="s1">&#39;Хирург&#39;</span><span class="p">,</span> <span class="s1">&#39;Кардиолог&#39;</span><span class="p">,</span> <span class="s1">&#39;Невролог&#39;</span><span class="p">,</span> <span class="s1">&#39;Педиатр&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Офтальмолог&#39;</span><span class="p">,</span> <span class="s1">&#39;Отоларинголог&#39;</span><span class="p">,</span> <span class="s1">&#39;Дерматолог&#39;</span><span class="p">,</span> <span class="s1">&#39;Эндокринолог&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Гастроэнтеролог&#39;</span><span class="p">,</span> <span class="s1">&#39;Уролог&#39;</span><span class="p">,</span> <span class="s1">&#39;Гинеколог&#39;</span><span class="p">,</span> <span class="s1">&#39;Стоматолог&#39;</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_specializations</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Специализация должна быть одной из: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_specializations</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="DoctorCreate.validate_phone">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorCreate.validate_phone">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_phone</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Валидация номера телефона&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DoctorUpdate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DoctorUpdate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для обновления врача&quot;&quot;&quot;</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">specialization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cabinet_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">experience_years</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="DoctorUpdate.validate_fio">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_fio">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;fio&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_fio</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;ФИО должно содержать минимум 3 слова&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="DoctorUpdate.validate_phone">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorUpdate.validate_phone">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_phone</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\+7\d</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Номер телефона должен быть в формате +7XXXXXXXXXX&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DoctorResponse">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.DoctorResponse">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DoctorResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема ответа с данными врача&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">fio</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">specialization</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">cabinet_number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">experience_years</span><span class="p">:</span> <span class="nb">int</span>
+    
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ==================== СХЕМЫ ДЛЯ ПРИЕМОВ ====================</span>
+
+<div class="viewcode-block" id="AppointmentCreate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppointmentCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для создания приема&quot;&quot;&quot;</span>
+    <span class="n">patient_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID пациента&quot;</span><span class="p">)</span>
+    <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;ID врача&quot;</span><span class="p">)</span>
+    <span class="n">appointment_date</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Дата приема&quot;</span><span class="p">)</span>
+    <span class="n">appointment_time</span><span class="p">:</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Время приема&quot;</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;scheduled&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Статус приема&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="AppointmentCreate.validate_appointment_date">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_date">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;appointment_date&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_appointment_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">date</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Дата приема не может быть в прошлом&quot;&quot;&quot;</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">today</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Дата приема не может быть в прошлом&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentCreate.validate_appointment_time">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_appointment_time">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;appointment_time&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_appointment_time</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">time</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">time</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Время приема должно быть в рабочие часы (8:00 - 20:00)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Время приема должно быть в рабочие часы (с 8:00 до 20:00)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+    
+<div class="viewcode-block" id="AppointmentCreate.validate_status">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentCreate.validate_status">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_status</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Статус должен быть одним из разрешенных&quot;&quot;&quot;</span>
+        <span class="n">valid_statuses</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scheduled&#39;</span><span class="p">,</span> <span class="s1">&#39;completed&#39;</span><span class="p">,</span> <span class="s1">&#39;cancelled&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_statuses</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Статус должен быть одним из: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_statuses</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AppointmentUpdate">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppointmentUpdate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема для обновления приема&quot;&quot;&quot;</span>
+    <span class="n">appointment_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">appointment_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">time</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">diagnosis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<div class="viewcode-block" id="AppointmentUpdate.validate_status">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentUpdate.validate_status">[документация]</a>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_status</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">valid_statuses</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scheduled&#39;</span><span class="p">,</span> <span class="s1">&#39;completed&#39;</span><span class="p">,</span> <span class="s1">&#39;cancelled&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_statuses</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Статус должен быть одним из: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_statuses</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AppointmentResponse">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentResponse">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppointmentResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Схема ответа с данными приема&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">patient_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">doctor_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">appointment_date</span><span class="p">:</span> <span class="n">date</span>
+    <span class="n">appointment_time</span><span class="p">:</span> <span class="n">time</span>
+    <span class="n">diagnosis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AppointmentDetailResponse">
+<a class="viewcode-back" href="../../../api/schemas.html#app.schemas.schemas.AppointmentDetailResponse">[документация]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AppointmentDetailResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Подробная информация о приеме с данными пациента и врача&quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">appointment_date</span><span class="p">:</span> <span class="n">date</span>
+    <span class="n">appointment_time</span><span class="p">:</span> <span class="n">time</span>
+    <span class="n">diagnosis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">patient</span><span class="p">:</span> <span class="n">PatientResponse</span>
+    <span class="n">doctor</span><span class="p">:</span> <span class="n">DoctorResponse</span>
+    
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">from_attributes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2025, Buze. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
