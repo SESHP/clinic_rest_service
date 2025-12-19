@@ -27,7 +27,8 @@ def create_doctor(doctor: DoctorCreate, db: Session = Depends(get_db)):
     
     Валидация:
     - ФИО должно содержать минимум 3 слова
-    - Специализация из предопределенного списка
+    - Специализации должны существовать в базе
+    - Кабинет должен существовать (если указан)
     - Стаж работы от 0 до 60 лет
     - Номер телефона в формате +7XXXXXXXXXX
     """
@@ -54,7 +55,9 @@ def get_doctor(doctor_id: int, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=List[DoctorResponse])
 def get_doctors(
-    specialization: Optional[str] = Query(None, description="Фильтр по специализации"),
+    specialization: Optional[str] = Query(None, description="Фильтр по названию специализации"),
+    specialization_id: Optional[int] = Query(None, description="Фильтр по ID специализации"),
+    cabinet_id: Optional[int] = Query(None, description="Фильтр по ID кабинета"),
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db)
@@ -62,12 +65,19 @@ def get_doctors(
     """
     Получить список всех врачей
     
-    Опционально можно фильтровать по специализации
+    Фильтры:
+    - specialization: название специализации
+    - specialization_id: ID специализации
+    - cabinet_id: ID кабинета
     """
     service = DoctorService(db)
     
     if specialization:
         doctors = service.get_doctors_by_specialization(specialization)
+    elif specialization_id:
+        doctors = service.get_doctors_by_specialization_id(specialization_id)
+    elif cabinet_id:
+        doctors = service.get_doctors_by_cabinet(cabinet_id)
     else:
         doctors = service.get_all_doctors(skip=skip, limit=limit)
     
@@ -112,22 +122,11 @@ def get_doctor_schedule(
 ):
     """
     Получить расписание врача на определенную дату
-    
-    Возвращает список всех записей на прием к данному врачу в указанную дату
-    
-    Args:
-        doctor_id: ID врача
-        date: Дата в формате YYYY-MM-DD (например, 2025-12-15)
-    
-    Returns:
-        Список записей на прием с информацией о пациентах, времени и статусе
     """
     try:
-        # Проверяем существование врача
         doctor_service = DoctorService(db)
         doctor_service.get_doctor_by_id(doctor_id)
         
-        # Получаем расписание
         appointment_service = AppointmentService(db)
         appointments = appointment_service.get_doctor_schedule(doctor_id, date)
         
@@ -135,4 +134,42 @@ def get_doctor_schedule(
         return appointments
     except ClinicException as e:
         logger.error(f"[API] Ошибка получения расписания: {e.message}")
+        raise HTTPException(status_code=e.status_code, detail=e.message)
+
+
+@router.post("/{doctor_id}/specializations/{specialization_id}", response_model=DoctorResponse)
+def add_doctor_specialization(
+    doctor_id: int,
+    specialization_id: int,
+    db: Session = Depends(get_db)
+):
+    """Добавить специализацию врачу"""
+    try:
+        service = DoctorService(db)
+        doctor = service.add_specialization(doctor_id, specialization_id)
+        logger.info(f"[API] Добавлена специализация ID={specialization_id} врачу ID={doctor_id}")
+        return doctor
+    except ClinicException as e:
+        logger.error(f"[API] Ошибка добавления специализации: {e.message}")
+        raise HTTPException(status_code=e.status_code, detail=e.message)
+
+
+@router.delete("/{doctor_id}/specializations/{specialization_id}", response_model=DoctorResponse)
+def remove_doctor_specialization(
+    doctor_id: int,
+    specialization_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Удалить специализацию у врача
+    
+    Ограничение: врач должен иметь хотя бы одну специализацию
+    """
+    try:
+        service = DoctorService(db)
+        doctor = service.remove_specialization(doctor_id, specialization_id)
+        logger.info(f"[API] Удалена специализация ID={specialization_id} у врача ID={doctor_id}")
+        return doctor
+    except ClinicException as e:
+        logger.error(f"[API] Ошибка удаления специализации: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)

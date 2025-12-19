@@ -14,6 +14,60 @@ import re
 from datetime import datetime
 
 
+# ==================== СХЕМЫ ДЛЯ СПЕЦИАЛИЗАЦИЙ ====================
+
+class SpecializationCreate(BaseModel):
+    """Схема для создания специализации"""
+    name: str = Field(..., min_length=2, max_length=50, description="Название специализации")
+    
+    @field_validator('name')
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        """Название специализации должно быть из предопределенного списка"""
+        valid_specializations = [
+            'Терапевт', 'Хирург', 'Кардиолог', 'Невролог', 'Педиатр',
+            'Офтальмолог', 'Отоларинголог', 'Дерматолог', 'Эндокринолог',
+            'Гастроэнтеролог', 'Уролог', 'Гинеколог', 'Стоматолог'
+        ]
+        if v not in valid_specializations:
+            raise ValueError(f'Специализация должна быть одной из: {", ".join(valid_specializations)}')
+        return v
+
+
+class SpecializationResponse(BaseModel):
+    """Схема ответа с данными специализации"""
+    id: int
+    name: str
+    
+    model_config = ConfigDict(from_attributes=True)
+
+
+# ==================== СХЕМЫ ДЛЯ КАБИНЕТОВ ====================
+
+class CabinetCreate(BaseModel):
+    """Схема для создания кабинета"""
+    number: str = Field(..., min_length=1, max_length=10, description="Номер кабинета")
+    floor: Optional[int] = Field(None, ge=1, le=20, description="Этаж")
+    description: Optional[str] = Field(None, max_length=200, description="Описание кабинета")
+
+
+class CabinetUpdate(BaseModel):
+    """Схема для обновления кабинета"""
+    number: Optional[str] = Field(None, min_length=1, max_length=10)
+    floor: Optional[int] = Field(None, ge=1, le=20)
+    description: Optional[str] = Field(None, max_length=200)
+
+
+class CabinetResponse(BaseModel):
+    """Схема ответа с данными кабинета"""
+    id: int
+    number: str
+    floor: Optional[int]
+    description: Optional[str]
+    
+    model_config = ConfigDict(from_attributes=True)
+
+
 # ==================== СХЕМЫ ДЛЯ ПАЦИЕНТОВ ====================
 
 class PatientCreate(BaseModel):
@@ -121,8 +175,8 @@ class PatientResponse(BaseModel):
 class DoctorCreate(BaseModel):
     """Схема для создания врача"""
     fio: str = Field(..., min_length=5, max_length=100, description="ФИО врача")
-    specialization: str = Field(..., description="Специализация врача")
-    cabinet_number: str = Field(..., min_length=1, max_length=10, description="Номер кабинета")
+    specialization_ids: List[int] = Field(..., min_length=1, description="Список ID специализаций")
+    cabinet_id: Optional[int] = Field(None, description="ID кабинета")
     phone: str = Field(..., description="Номер телефона")
     experience_years: int = Field(..., ge=0, le=60, description="Стаж работы в годах")
     
@@ -133,19 +187,6 @@ class DoctorCreate(BaseModel):
         words = v.strip().split()
         if len(words) < 3:
             raise ValueError('ФИО должно содержать минимум 3 слова (Фамилия Имя Отчество)')
-        return v
-    
-    @field_validator('specialization')
-    @classmethod
-    def validate_specialization(cls, v: str) -> str:
-        """Специализация должна быть из предопределенного списка"""
-        valid_specializations = [
-            'Терапевт', 'Хирург', 'Кардиолог', 'Невролог', 'Педиатр',
-            'Офтальмолог', 'Отоларинголог', 'Дерматолог', 'Эндокринолог',
-            'Гастроэнтеролог', 'Уролог', 'Гинеколог', 'Стоматолог'
-        ]
-        if v not in valid_specializations:
-            raise ValueError(f'Специализация должна быть одной из: {", ".join(valid_specializations)}')
         return v
     
     @field_validator('phone')
@@ -160,8 +201,8 @@ class DoctorCreate(BaseModel):
 class DoctorUpdate(BaseModel):
     """Схема для обновления врача"""
     fio: Optional[str] = Field(None, min_length=5, max_length=100)
-    specialization: Optional[str] = None
-    cabinet_number: Optional[str] = Field(None, min_length=1, max_length=10)
+    specialization_ids: Optional[List[int]] = Field(None, min_length=1)
+    cabinet_id: Optional[int] = None
     phone: Optional[str] = None
     experience_years: Optional[int] = Field(None, ge=0, le=60)
     
@@ -186,8 +227,20 @@ class DoctorResponse(BaseModel):
     """Схема ответа с данными врача"""
     id: int
     fio: str
-    specialization: str
-    cabinet_number: str
+    specializations: List[SpecializationResponse]
+    cabinet: Optional[CabinetResponse]
+    phone: str
+    experience_years: int
+    
+    model_config = ConfigDict(from_attributes=True)
+
+
+class DoctorListResponse(BaseModel):
+    """Схема для списка врачей (упрощенная)"""
+    id: int
+    fio: str
+    specializations: List[str]  # Просто названия специализаций
+    cabinet_number: Optional[str]
     phone: str
     experience_years: int
     

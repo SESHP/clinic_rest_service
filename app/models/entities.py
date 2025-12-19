@@ -48,8 +48,8 @@ class Doctor:
     """
     id: int
     fio: str
-    specialization: str
-    cabinet_number: str
+    specialization: str   # удалить
+    cabinet_number: str   # удалить
     phone: str
     experience_years: int
 

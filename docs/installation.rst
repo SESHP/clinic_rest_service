@@ -16,7 +16,7 @@
 
 .. code-block:: bash
 
-   git clone https://github.com/username/clinic_rest_service.git
+   git clone https://github.com/SESHP/clinic_rest_service.git
    cd clinic_rest_service
 
 2. Создание виртуального окружения

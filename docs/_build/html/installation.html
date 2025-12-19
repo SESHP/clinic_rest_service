@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
-    <link rel="next" title="Архитектура системы" href="architecture.html" />
-    <link rel="prev" title="Обзор проекта" href="overview.html" /> 
+    <link rel="next" title="Примеры использования" href="examples.html" />
+    <link rel="prev" title="Архитектура системы" href="architecture.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,6 +56,18 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#id7">Бизнес-правила</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура системы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id2">Структура проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id3">Архитектурные слои</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id4">Паттерны проектирования</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#repository-pattern">Repository Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#dependency-injection">Dependency Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#dto-pattern">DTO Pattern</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#id5">Обработка ошибок</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Установка и настройка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Системные требования</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Установка</a><ul>
@@ -74,16 +86,50 @@
 <li class="toctree-l2"><a class="reference internal" href="#id12">Тестирование</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Архитектура системы</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#id2">Структура проекта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#id3">Архитектурные слои</a></li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#id4">Паттерны проектирования</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#repository-pattern">Repository Pattern</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#dependency-injection">Dependency Injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="architecture.html#dto-pattern">DTO Pattern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Примеры использования</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#python">Python примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id2">Создание пациента</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id3">Запись на приём</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id4">Получение расписания врача</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="architecture.html#id5">Обработка ошибок</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#curl">curl примеры</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id5">Создание врача</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id6">Получение списка пациентов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html#id7">История приёмов пациента</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Развёртывание</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#dockerfile">Dockerfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#docker-compose-yml">docker-compose.yml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#production">Production</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deployment.html#gunicorn-nginx">Gunicorn + Nginx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Тестирование</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id2">Статистика</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id3">Технологии</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id4">Структура тестов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#testpatientservice-24">TestPatientService (24 теста)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#testdoctorservice-24">TestDoctorService (24 теста)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#testappointmentservice-16">TestAppointmentService (16 тестов)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id5">Запуск тестов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id6">Примеры тестов</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#id7">Валидный тест</a></li>
+<li class="toctree-l3"><a class="reference internal" href="testing.html#id8">Невалидный тест</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id9">Изоляция БД</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#id10">Требования</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
@@ -303,33 +349,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api/index.html#id1">Модули</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Примеры использования</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#python">Python примеры</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id2">Создание пациента</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id3">Запись на приём</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id4">Получение расписания врача</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="examples.html#curl">curl примеры</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id5">Создание врача</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id6">Получение списка пациентов</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples.html#id7">История приёмов пациента</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="deployment.html">Развёртывание</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="deployment.html#docker">Docker</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="deployment.html#dockerfile">Dockerfile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deployment.html#docker-compose-yml">docker-compose.yml</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="deployment.html#production">Production</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="deployment.html#gunicorn-nginx">Gunicorn + Nginx</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 
         </div>
@@ -370,7 +389,7 @@
 <h2>Установка<a class="headerlink" href="#id3" title="Ссылка на этот заголовок"></a></h2>
 <section id="id4">
 <h3>1. Клонирование репозитория<a class="headerlink" href="#id4" title="Ссылка на этот заголовок"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/username/clinic_rest_service.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SESHP/clinic_rest_service.git
 <span class="nb">cd</span><span class="w"> </span>clinic_rest_service
 </pre></div>
 </div>
@@ -443,8 +462,8 @@ venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Нижняя область">
-        <a href="overview.html" class="btn btn-neutral float-left" title="Обзор проекта" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
-        <a href="architecture.html" class="btn btn-neutral float-right" title="Архитектура системы" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Архитектура системы" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Предыдущая</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Примеры использования" accesskey="n" rel="next">Следующая <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
