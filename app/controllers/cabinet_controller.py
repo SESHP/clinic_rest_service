@@ -23,8 +23,10 @@ def create_cabinet(cabinet: CabinetCreate, db: Session = Depends(get_db)):
     try:
         service = CabinetService(db)
         db_cabinet = service.create_cabinet(cabinet)
+        logger.info(f"[API] Создан кабинет ID={db_cabinet.id}")
         return db_cabinet
     except ClinicException as e:
+        logger.error(f"[API] Ошибка создания кабинета: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)
 
 
@@ -57,8 +59,11 @@ def update_cabinet(cabinet_id: int, cabinet: CabinetUpdate, db: Session = Depend
     """Обновить данные кабинета"""
     try:
         service = CabinetService(db)
-        return service.update_cabinet(cabinet_id, cabinet)
+        updated = service.update_cabinet(cabinet_id, cabinet)
+        logger.info(f"[API] Обновлен кабинет ID={cabinet_id}")
+        return updated
     except ClinicException as e:
+        logger.error(f"[API] Ошибка обновления кабинета: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)
 
 
@@ -67,8 +72,11 @@ def delete_cabinet(cabinet_id: int, db: Session = Depends(get_db)):
     """Удалить кабинет"""
     try:
         service = CabinetService(db)
-        return service.delete_cabinet(cabinet_id)
+        result = service.delete_cabinet(cabinet_id)
+        logger.info(f"[API] Удален кабинет ID={cabinet_id}")
+        return result
     except ClinicException as e:
+        logger.error(f"[API] Ошибка удаления кабинета: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)
 
 
@@ -77,6 +85,8 @@ def get_cabinet_doctors(cabinet_id: int, db: Session = Depends(get_db)):
     """Получить список врачей в кабинете"""
     try:
         service = CabinetService(db)
-        return service.get_cabinet_doctors(cabinet_id)
+        doctors = service.get_cabinet_doctors(cabinet_id)
+        logger.info(f"[API] Получены врачи кабинета ID={cabinet_id}: {len(doctors)} записей")
+        return doctors
     except ClinicException as e:
         raise HTTPException(status_code=e.status_code, detail=e.message)

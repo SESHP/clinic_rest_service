@@ -52,8 +52,10 @@ def delete_specialization(spec_id: int, db: Session = Depends(get_db)):
     try:
         service = SpecializationService(db)
         result = service.delete(spec_id)
+        logger.info(f"[API] Удалена специализация ID={spec_id}")
         return result
     except ClinicException as e:
+        logger.error(f"[API] Ошибка удаления специализации: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)
 
 
@@ -63,6 +65,8 @@ def seed_specializations(db: Session = Depends(get_db)):
     try:
         service = SpecializationService(db)
         specs = service.seed_default_specializations()
+        logger.info(f"[API] Специализации инициализированы: {len(specs)} записей")
         return specs
     except ClinicException as e:
+        logger.error(f"[API] Ошибка инициализации специализаций: {e.message}")
         raise HTTPException(status_code=e.status_code, detail=e.message)

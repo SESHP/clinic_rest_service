@@ -6,7 +6,13 @@
 
 from app.database import SessionLocal, init_db
 from app.models.database import SpecializationDB, CabinetDB, DoctorDB
+from datetime import date, time, timedelta
+from app.models.database import AppointmentDB
+from app.models.database import SpecializationDB, CabinetDB, DoctorDB, PatientDB, AppointmentDB
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 def seed_specializations(db):
     """Заполнение специализаций"""
@@ -153,6 +159,159 @@ def seed_sample_doctors(db, specializations, cabinets):
     db.commit()
     print(f"✅ Создано {len(doctors_data)} тестовых врачей")
 
+def seed_sample_patients(db):
+    """Создание тестовых пациентов"""
+    logger.info("Проверка наличия пациентов...")
+    
+    count = db.query(PatientDB).count()
+    if count > 0:
+        logger.info(f"В базе уже есть {count} пациентов, пропускаем")
+        return
+    
+    patients = [
+        PatientDB(
+            fio="Смирнов Алексей Петрович",
+            birth_date=date(1985, 3, 15),
+            phone="+79001234567",
+            address="г. Москва, ул. Ленина, д. 10, кв. 5",
+            insurance_number="1234567890123456"
+        ),
+        PatientDB(
+            fio="Кузнецова Мария Ивановна",
+            birth_date=date(1990, 7, 22),
+            phone="+79001234568",
+            address="г. Москва, ул. Пушкина, д. 25, кв. 12",
+            insurance_number="2345678901234567"
+        ),
+        PatientDB(
+            fio="Попов Дмитрий Сергеевич",
+            birth_date=date(1978, 11, 8),
+            phone="+79001234569",
+            address="г. Москва, ул. Гагарина, д. 5, кв. 45",
+            insurance_number="3456789012345678"
+        ),
+        PatientDB(
+            fio="Волкова Анна Александровна",
+            birth_date=date(2015, 5, 30),
+            phone="+79001234570",
+            address="г. Москва, ул. Мира, д. 18, кв. 7",
+            insurance_number="4567890123456789"
+        ),
+        PatientDB(
+            fio="Соколов Игорь Владимирович",
+            birth_date=date(1965, 9, 12),
+            phone="+79001234571",
+            address="г. Москва, ул. Советская, д. 33, кв. 21",
+            insurance_number="5678901234567890"
+        ),
+    ]
+    
+    for patient in patients:
+        db.add(patient)
+    
+    db.commit()
+    logger.info(f"Создано {len(patients)} тестовых пациентов")
+
+
+def seed_sample_appointments(db):
+    """Создание тестовых приемов"""
+    logger.info("Проверка наличия приемов...")
+    
+    count = db.query(AppointmentDB).count()
+    if count > 0:
+        logger.info(f"В базе уже есть {count} приемов, пропускаем")
+        return
+    
+    doctors = db.query(DoctorDB).all()
+    patients = db.query(PatientDB).all()
+    
+    if not doctors or not patients:
+        logger.warning("Нет врачей или пациентов для создания приемов")
+        return
+    
+    today = date.today()
+    tomorrow = today + timedelta(days=1)
+    day_after = today + timedelta(days=2)
+    yesterday = today - timedelta(days=1)
+    
+    appointments = [
+        # Прошедшие приемы (завершенные)
+        AppointmentDB(
+            patient_id=patients[0].id,
+            doctor_id=doctors[0].id,
+            appointment_date=yesterday,
+            appointment_time=time(9, 0),
+            status="completed",
+            diagnosis="ОРВИ, легкое течение. Рекомендован постельный режим."
+        ),
+        AppointmentDB(
+            patient_id=patients[1].id,
+            doctor_id=doctors[1].id,
+            appointment_date=yesterday,
+            appointment_time=time(10, 30),
+            status="completed",
+            diagnosis="Гипертоническая болезнь II стадии. Назначена терапия."
+        ),
+        # Сегодняшние приемы
+        AppointmentDB(
+            patient_id=patients[2].id,
+            doctor_id=doctors[0].id,
+            appointment_date=today,
+            appointment_time=time(11, 0),
+            status="scheduled"
+        ),
+        AppointmentDB(
+            patient_id=patients[3].id,
+            doctor_id=doctors[3].id,
+            appointment_date=today,
+            appointment_time=time(14, 0),
+            status="scheduled"
+        ),
+        # Завтрашние приемы
+        AppointmentDB(
+            patient_id=patients[0].id,
+            doctor_id=doctors[1].id,
+            appointment_date=tomorrow,
+            appointment_time=time(9, 30),
+            status="scheduled"
+        ),
+        AppointmentDB(
+            patient_id=patients[4].id,
+            doctor_id=doctors[2].id,
+            appointment_date=tomorrow,
+            appointment_time=time(10, 0),
+            status="scheduled"
+        ),
+        AppointmentDB(
+            patient_id=patients[1].id,
+            doctor_id=doctors[4].id,
+            appointment_date=tomorrow,
+            appointment_time=time(15, 0),
+            status="scheduled"
+        ),
+        # Послезавтра
+        AppointmentDB(
+            patient_id=patients[2].id,
+            doctor_id=doctors[1].id,
+            appointment_date=day_after,
+            appointment_time=time(11, 30),
+            status="scheduled"
+        ),
+        # Отмененный прием
+        AppointmentDB(
+            patient_id=patients[3].id,
+            doctor_id=doctors[0].id,
+            appointment_date=yesterday,
+            appointment_time=time(16, 0),
+            status="cancelled"
+        ),
+    ]
+    
+    for appointment in appointments:
+        db.add(appointment)
+    
+    db.commit()
+    logger.info(f"Создано {len(appointments)} тестовых приемов")
 
 def main():
     print("=" * 50)
@@ -175,6 +334,9 @@ def main():
         
         # Создаем тестовых врачей если база пустая
         seed_sample_doctors(db, specializations, cabinets)
+
+        seed_sample_patients(db)      # <-- добавь
+        seed_sample_appointments(db)
         
         print("=" * 50)
         print("✅ Инициализация завершена успешно!")

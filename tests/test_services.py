@@ -9,7 +9,7 @@ from datetime import date, time, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.models.database import Base, PatientDB, DoctorDB, AppointmentDB
+from app.models.database import Base, PatientDB, DoctorDB, AppointmentDB, SpecializationDB, CabinetDB
 from app.schemas import PatientCreate, DoctorCreate, AppointmentCreate, AppointmentUpdate
 from app.services import PatientService, DoctorService, AppointmentService
 from app.exceptions import (
@@ -48,6 +48,16 @@ class TestClinicServices(unittest.TestCase):
     
     def _create_test_data(self):
         """Создание тестовых данных"""
+        # Создаем специализации
+        specialization_therapist = SpecializationDB(id=1, name="Терапевт")
+        specialization_surgeon = SpecializationDB(id=2, name="Хирург")
+        self.db.add(specialization_therapist)
+        self.db.add(specialization_surgeon)
+        
+        # Создаем кабинеты
+        cabinet = CabinetDB(id=1, number="201", floor=2, description="Кабинет терапевта")
+        self.db.add(cabinet)
+        
         # Создаем тестового пациента
         patient = PatientDB(
             id=1,
@@ -63,11 +73,11 @@ class TestClinicServices(unittest.TestCase):
         doctor = DoctorDB(
             id=1,
             fio="Смирнов Алексей Викторович",
-            specialization="Терапевт",
-            cabinet_number="201",
+            cabinet_id=1,
             phone="+79161112233",
             experience_years=15
         )
+        doctor.specializations.append(specialization_therapist)
         self.db.add(doctor)
         
         self.db.commit()
@@ -148,10 +158,15 @@ class TestClinicServices(unittest.TestCase):
     
     def test_create_doctor_valid(self):
         """Тест создания валидного врача"""
+        # Создаем дополнительный кабинет для нового врача
+        cabinet = CabinetDB(id=2, number="305", floor=3)
+        self.db.add(cabinet)
+        self.db.commit()
+        
         doctor_data = DoctorCreate(
             fio="Кузнецов Иван Петрович",
-            specialization="Хирург",
-            cabinet_number="305",
+            specialization_ids=[2],  # Хирург
+            cabinet_id=2,
             phone="+79162223344",
             experience_years=10
         )
@@ -160,7 +175,8 @@ class TestClinicServices(unittest.TestCase):
         doctor = service.create_doctor(doctor_data)
         
         self.assertIsNotNone(doctor.id)
-        self.assertEqual(doctor.specialization, "Хирург")
+        self.assertEqual(len(doctor.specializations), 1)
+        self.assertEqual(doctor.specializations[0].name, "Хирург")
     
     def test_get_doctors_by_specialization(self):
         """Тест поиска врачей по специализации"""
